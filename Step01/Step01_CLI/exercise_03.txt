@@ -1,0 +1,16 @@
+vim ~/.bashrc
+
+function odd-or-even() {
+read -p "please type a integer greater than 0:" num
+if [ "$num" = "" ] || [ $num = 0 ]
+then
+        echo "please type again"
+elif [ $(($num%2)) = 1 2>/dev/null ]
+then
+        echo odd
+else
+        echo even
+fi
+}
+
+source ~/.bashrc
