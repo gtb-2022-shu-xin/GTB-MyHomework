@@ -1,0 +1,2 @@
+
+echo $(echo -n `cat nums.txt` | awk '{print $1}'`| tr ' ' '+')|bc
