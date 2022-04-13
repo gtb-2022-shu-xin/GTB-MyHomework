@@ -1,0 +1,14 @@
+#!/bin/bash
+
+declare -r INPUT_FILE="${1:?an input file is required!}"
+
+cat "${INPUT_FILE}" | sed -E "s/ +\| +/\n/g" \
+	| sed -E "s/^(sudo|nohup) +//g" \
+	| sed -E "s/^ +//g" \
+       	| cut -d " " -f 1 \
+	| sed -E "s/^.*\///g" \
+	| grep -E -v "^(ls|ll|cd|echo|cat|vim)$" \
+	| awk 'BEGIN{} {total++;cmds[$1]++;} END{for (cmd in cmds) {printf "%i %f %s\n", cmds[cmd], cmds[cmd]/total*100, cmd;}}' \
+	| sort -t " " -k 1,1nr -k 3,3 \
+	| head -n 10 \
+	| awk 'BEGIN{} {printf "%4i %6.2f%%  %s\n", $1, $2, $3;} END{}'
